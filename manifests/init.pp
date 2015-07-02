@@ -116,7 +116,7 @@ class consul_alerts (
 
   if $init_style == 'systemd' {
 
-    file { '/lib/systemd/system/consul_alerts.service':
+    file { '/lib/systemd/system/consul-alerts.service':
       mode    => '0644',
       owner   => 'root',
       group   => 'root',
