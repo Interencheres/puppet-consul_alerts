@@ -130,8 +130,6 @@ class consul_alerts (
       refreshonly => true,
     }
 
-  }
-
     service { 'consul-alerts':
       ensure  => $enabled,
       enable  => $enabled,
