@@ -7,7 +7,7 @@ After=basic.target network.target
 User=consul
 Group=consul
 ExecStart=<%= scope.lookupvar('consul_alerts::binary_path') %>/consul-alerts start \
---consul-dc=<%= scope.lookupvar('consul_alerts::data_center') %> <% if @watch_events -%>--watch-events<% end -%><% if @watch_checks -%> --watch-checks<% end -%> --watch-event
+--consul-dc=<%= scope.lookupvar('consul_alerts::data_center') %> <% if @watch_events -%>--watch-events<% end -%><% if @watch_checks -%> --watch-checks<% end -%>
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure

@@ -122,8 +122,15 @@ class consul_alerts (
       group   => 'root',
       ensure  => $file_ensure,
       content => template('consul_alerts/consul_alerts.systemd.erb'),
-      notify  => Service['consul-alerts'],
+      notify  => Exec['systemd_reload_consul_alerts'],
     }
+
+    exec { "systemd_reload_consul_alerts":
+      command     => '/bin/systemctl daemon-reload',
+      refreshonly => true,
+    }
+
+  }
 
     service { 'consul-alerts':
       ensure  => $enabled,
