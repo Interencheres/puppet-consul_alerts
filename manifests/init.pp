@@ -51,7 +51,7 @@ class consul_alerts (
   $enabled      = true,
   $binary_path  = '/usr/local/bin',
   $version      = '0.2.0',
-  $repo_url     = 'https://github.com/AcalephStorage/consul-alerts/releases/download',
+  $repo_url     = 'https://github.com/Interencheres/consul-alerts/releases/download/v0.3.1/',
   $arch         = $::architecture,
   $default_url  = true,
   $custom_url   = undef,
