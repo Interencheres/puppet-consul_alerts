@@ -1,0 +1,17 @@
+[Unit]
+Description=Consul Alerts
+Wants=basic.target
+After=basic.target network.target
+
+[Service]
+User=consul
+Group=consul
+ExecStart=<%= scope.lookupvar('consul_alerts::binary_path') %>/consul-alerts start \
+--consul-dc=<%= scope.lookupvar('consul_alerts::data_center') %> <% if @watch_events -%>--watch-events<% end -%><% if @watch_checks -%> --watch-checks<% end -%> --watch-event
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target

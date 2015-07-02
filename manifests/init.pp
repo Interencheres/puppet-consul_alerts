@@ -105,20 +105,51 @@ class consul_alerts (
     false   => absent,
     default => present,
   }
-  #Build init file
-  file { '/etc/init/consul-alerts.conf':
-    ensure  => $file_ensure,
-    content => template('consul_alerts/initfile.erb'),
-    notify  => Service['consul-alerts'],
+
+  if $::operatingsystem == 'Debian' {
+    if versioncmp($::operatingsystemrelease, '8.0') < 0 {
+      $init_style = 'debian'
+    } else {
+      $init_style = 'systemd'
+    }
   }
 
-  service { 'consul-alerts':
-    ensure  => $enabled,
-    enable  => $enabled,
-    require => [
-      Exec['extract_consul_alerts'],
-      File['/etc/init/consul-alerts.conf'],
-    ],
+  if $init_style == 'systemd' {
+
+    file { '/lib/systemd/system/consul_alerts.service':
+      mode    => '0644',
+      owner   => 'root',
+      group   => 'root',
+      ensure  => $file_ensure,
+      content => template('consul_alerts/consul_alerts.systemd.erb'),
+      notify  => Service['consul-alerts'],
+    }
+
+    service { 'consul-alerts':
+      ensure  => $enabled,
+      enable  => $enabled,
+      require => [
+        Exec['extract_consul_alerts'],
+        File['/lib/systemd/system/consul_alerts.service'],
+      ],
+    }
+
+  } else {
+    #Build init file
+    file { '/etc/init/consul-alerts.conf':
+      ensure  => $file_ensure,
+      content => template('consul_alerts/initfile.erb'),
+      notify  => Service['consul-alerts'],
+    }
+
+    service { 'consul-alerts':
+      ensure  => $enabled,
+      enable  => $enabled,
+      require => [
+        Exec['extract_consul_alerts'],
+        File['/etc/init/consul-alerts.conf'],
+      ],
+    }
   }
 
 }
