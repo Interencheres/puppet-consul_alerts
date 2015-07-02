@@ -136,7 +136,7 @@ class consul_alerts (
       provider => $init_style,
       require => [
         Exec['extract_consul_alerts'],
-        File['/lib/systemd/system/consul_alerts.service'],
+        File['/lib/systemd/system/consul-alerts.service'],
       ],
     }
 
