@@ -133,6 +133,7 @@ class consul_alerts (
     service { 'consul-alerts':
       ensure  => $enabled,
       enable  => $enabled,
+      provider => $init_style,
       require => [
         Exec['extract_consul_alerts'],
         File['/lib/systemd/system/consul_alerts.service'],
