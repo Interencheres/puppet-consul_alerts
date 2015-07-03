@@ -50,7 +50,7 @@
 class consul_alerts (
   $enabled      = true,
   $binary_path  = '/usr/local/bin',
-  $version      = '0.4.1',
+  $version      = '0.4.2',
   $repo_url     = 'https://github.com/Interencheres/consul-alerts/releases/download',
   $arch         = $::architecture,
   $default_url  = true,
